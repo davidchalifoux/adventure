@@ -79,7 +79,8 @@ export default {
           isPlayer: false,
           text: [
             'Welcome!',
-            "Say something like 'begin' or 'start' to start playing.",
+            "To start, click the microphone button and say something like 'start', or 'begin'.",
+            'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.',
           ],
         },
       ],
