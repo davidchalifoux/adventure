@@ -423,8 +423,6 @@ export default {
           const confidence =
             event.results[event.results.length - 1][0].confidence
 
-          console.log(event)
-
           if (!isFinal) {
             this.commandText = transcript
           } else {
