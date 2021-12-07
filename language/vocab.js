@@ -300,4 +300,6 @@ export default [
   'west',
   'xyzzy',
   'y2',
+  'yes',
+  'no',
 ]

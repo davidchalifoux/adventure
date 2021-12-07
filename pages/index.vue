@@ -50,6 +50,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
 import adventure from 'adventurejs-web'
 import vocab from '@/language/vocab'
+import compromise from '@/language/compromise'
 
 const grammar =
   '#JSGF V1.0; grammar colors; public <color> = ' + vocab.join(' | ') + ' ;'
@@ -82,7 +83,7 @@ export default {
           isPlayer: false,
           text: [
             'Welcome!',
-            `To start, click the microphone button and say something like "start" or "begin".`,
+            `To start, click the microphone button and say "go".`,
             `If voice control isn't your thing, you can also type commands into the text box below.`,
             'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.',
           ],
@@ -100,8 +101,19 @@ export default {
     },
     advanceGame(input) {
       this.commandText = ''
-      this.logs.push({ isPlayer: true, text: [input] })
-      this.logs.push({ isPlayer: false, text: game.advance(input) })
+
+      const processedInput = compromise(input)
+      if (processedInput) {
+        // Valid word exists
+        this.logs.push({ isPlayer: true, text: [processedInput] })
+        this.logs.push({ isPlayer: false, text: game.advance(processedInput) })
+      } else {
+        // No valid word given
+        this.logs.push({
+          isPlayer: true,
+          text: ['Sorry! Your command did not have a valid phrase or word.'],
+        })
+      }
     },
     recognize() {
       if (this.isRecording) {
