@@ -105,7 +105,9 @@ export default {
       const processedInput = compromise(input)
       if (processedInput) {
         // Valid word exists
-        this.logs.push({ isPlayer: true, text: [processedInput] })
+        // eslint-disable-next-line no-console
+        console.log('Final transcript:', processedInput)
+        this.logs.push({ isPlayer: true, text: [input] })
         this.logs.push({ isPlayer: false, text: game.advance(processedInput) })
       } else {
         // No valid word given
