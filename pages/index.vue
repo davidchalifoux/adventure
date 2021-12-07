@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="flex flex-shrink-0 h-12 bg-gray-700 rounded my-4 px-4 items-center"
+      class="flex flex-shrink-0 h-12 bg-gray-700 rounded my-4 mb-12 px-4 items-center"
     >
       <button class="bg-gray-600 p-4 rounded" @click="recognize">
         <svg
@@ -36,9 +36,11 @@
         </svg>
       </button>
       <input
+        v-model="commandText"
         type="text"
-        class="flex-grow ml-4 bg-transparent"
+        class="flex-grow ml-4 bg-transparent border-none placeholder-gray-400 focus:ring-0"
         placeholder="Command"
+        @keyup.enter="advanceGame(commandText)"
       />
     </div>
   </div>
@@ -83,12 +85,14 @@ export default {
           text: [
             'Welcome!',
             `To start, click the microphone button and say something like "start" or "begin".`,
+            `If voice control isn't your thing, you can also type commands into the text box below.`,
             'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.',
           ],
         },
       ],
       isRecording: false,
       isStarted: false,
+      commandText: '',
     }
   },
   methods: {
@@ -97,6 +101,7 @@ export default {
       this.isStarted = true
     },
     advanceGame(input) {
+      this.commandText = ''
       this.logs.push({ isPlayer: true, text: [input] })
       this.logs.push({ isPlayer: false, text: game.advance(input) })
     },
