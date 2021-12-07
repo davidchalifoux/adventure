@@ -9,7 +9,7 @@
     >
       <div
         v-for="log in logs"
-        class="py-2 mt-4 pl-4 border-l-4 border-gray-500"
+        class="py-2 mt-4 pl-4 border-l-4 border-gray-500 prose text-gray-100 max-w-none"
         :class="{ 'border-red-500': log.isPlayer }"
       >
         <div v-for="message in log.text">{{ message }}</div>
@@ -82,7 +82,7 @@ export default {
           isPlayer: false,
           text: [
             'Welcome!',
-            "To start, click the microphone button and say something like 'start', or 'begin'.",
+            `To start, click the microphone button and say something like "start" or "begin".`,
             'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.',
           ],
         },
@@ -113,7 +113,9 @@ export default {
             event.results[event.results.length - 1][0].transcript
           const confidence =
             event.results[event.results.length - 1][0].confidence
+          // eslint-disable-next-line no-console
           console.log('Transcript: ' + transcript)
+          // eslint-disable-next-line no-console
           console.log('Confidence: ' + confidence)
 
           this.advanceGame(transcript)
