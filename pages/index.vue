@@ -18,7 +18,11 @@
     <div
       class="flex flex-shrink-0 h-12 bg-gray-700 rounded my-4 mb-12 px-4 items-center"
     >
-      <button class="bg-gray-600 p-4 rounded" @click="recognize">
+      <button
+        v-if="isWebkitSpeech"
+        class="bg-gray-600 p-4 rounded"
+        @click="recognize"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6"
@@ -38,7 +42,8 @@
       <input
         v-model="commandText"
         type="text"
-        class="flex-grow ml-4 bg-transparent border-none placeholder-gray-400 focus:ring-0 disabled:opacity-25"
+        class="flex-grow bg-transparent border-none placeholder-gray-400 focus:ring-0 disabled:opacity-25"
+        :class="{ 'ml-4': isWebkitSpeech }"
         :disabled="isRecording"
         placeholder="Command"
         @keyup.enter="advanceGame(commandText)"
@@ -52,27 +57,28 @@ import adventure from 'adventurejs-web'
 import vocab from '@/language/vocab'
 import compromise from '@/language/compromise'
 
-const grammar =
-  '#JSGF V1.0; grammar colors; public <color> = ' + vocab.join(' | ') + ' ;'
+let recognition = null
 
-// eslint-disable-next-line no-undef, no-use-before-define
-const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-// eslint-disable-next-line no-undef, no-use-before-define
-const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-// eslint-disable-next-line no-undef, no-use-before-define
-const SpeechRecognitionEvent =
-  SpeechRecognitionEvent || webkitSpeechRecognitionEvent // eslint-disable-line no-undef, no-use-before-define
+if (
+  'webkitSpeechRecognition' in window &&
+  'webkitSpeechGrammarList' in window
+) {
+  const grammar =
+    '#JSGF V1.0; grammar colors; public <color> = ' + vocab.join(' | ') + ' ;'
 
-// eslint-disable-next-line no-undef, new-cap
-const recognition = new SpeechRecognition()
-const speechRecognitionList = new SpeechGrammarList()
-speechRecognitionList.addFromString(grammar, 1)
-recognition.grammars = speechRecognitionList
+  // eslint-disable-next-line no-undef, new-cap
+  recognition = new webkitSpeechRecognition()
+  // eslint-disable-next-line no-undef, new-cap
+  const speechRecognitionList = new webkitSpeechGrammarList()
+  speechRecognitionList.addFromString(grammar, 1)
+  recognition.grammars = speechRecognitionList
 
-recognition.continuous = true
-recognition.lang = 'en-US'
-recognition.interimResults = true
-recognition.maxAlternatives = 1
+  recognition.continuous = true
+  recognition.lang = 'en-US'
+  recognition.interimResults = true
+  recognition.maxAlternatives = 1
+}
+
 const game = adventure.makeState()
 
 export default {
@@ -83,9 +89,15 @@ export default {
           isPlayer: false,
           text: [
             'Welcome!',
-            `To start, click the microphone button and say "go".`,
-            `If voice control isn't your thing, you can also type commands into the text box below.`,
-            'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.',
+            recognition
+              ? `To start, click the microphone button and say "go".`
+              : null,
+            recognition
+              ? `If voice control isn't your thing, you can also type commands into the text box below.`
+              : null,
+            recognition
+              ? 'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.'
+              : null,
           ],
         },
       ],
@@ -93,6 +105,14 @@ export default {
       isStarted: false,
       commandText: '',
     }
+  },
+  computed: {
+    isWebkitSpeech: () => {
+      return (
+        'webkitSpeechRecognition' in window &&
+        'webkitSpeechGrammarList' in window
+      )
+    },
   },
   methods: {
     startGame() {
