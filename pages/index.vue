@@ -59,19 +59,20 @@ import compromise from '@/language/compromise'
 
 let recognition = null
 
-if (
-  'webkitSpeechRecognition' in window &&
-  'webkitSpeechGrammarList' in window
-) {
-  const grammar =
-    '#JSGF V1.0; grammar colors; public <color> = ' + vocab.join(' | ') + ' ;'
-
+// Check if the browser has speech recognition
+if ('webkitSpeechRecognition' in window) {
   // eslint-disable-next-line no-undef, new-cap
   recognition = new webkitSpeechRecognition()
-  // eslint-disable-next-line no-undef, new-cap
-  const speechRecognitionList = new webkitSpeechGrammarList()
-  speechRecognitionList.addFromString(grammar, 1)
-  recognition.grammars = speechRecognitionList
+
+  // Check if the browser supports grammar lists
+  if ('webkitSpeechGrammarList' in window) {
+    const grammar =
+      '#JSGF V1.0; grammar colors; public <color> = ' + vocab.join(' | ') + ' ;'
+    // eslint-disable-next-line no-undef, new-cap
+    const speechRecognitionList = new webkitSpeechGrammarList()
+    speechRecognitionList.addFromString(grammar, 1)
+    recognition.grammars = speechRecognitionList
+  }
 
   recognition.continuous = true
   recognition.lang = 'en-US'
@@ -108,10 +109,7 @@ export default {
   },
   computed: {
     isWebkitSpeech: () => {
-      return (
-        'webkitSpeechRecognition' in window &&
-        'webkitSpeechGrammarList' in window
-      )
+      return 'webkitSpeechRecognition' in window
     },
   },
   methods: {
@@ -133,7 +131,9 @@ export default {
         // No valid word given
         this.logs.push({
           isPlayer: true,
-          text: ['Sorry! Your command did not have a valid phrase or word.'],
+          text: [
+            'Sorry! Your command did not have a recognized phrase or word.',
+          ],
         })
       }
     },
