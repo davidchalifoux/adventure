@@ -19,7 +19,7 @@
       class="flex flex-shrink-0 h-12 bg-gray-700 rounded my-4 mb-12 px-4 items-center"
     >
       <button
-        v-if="isWebkitSpeech"
+        v-if="isWebkitSpeechRecognition"
         class="bg-gray-600 p-4 rounded"
         @click="recognize"
       >
@@ -36,6 +36,27 @@
             stroke-linejoin="round"
             stroke-width="2"
             d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+          />
+        </svg>
+      </button>
+      <button
+        v-if="isWebkitSpeechSynthesis"
+        class="bg-gray-600 p-4 rounded ml-2"
+        @click="isSynthesizing = !isSynthesizing"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          :class="{ 'text-red-400 animate-pulse': isSynthesizing }"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
           />
         </svg>
       </button>
@@ -57,7 +78,13 @@ import adventure from 'adventurejs-web'
 import vocab from '@/language/vocab'
 import compromise from '@/language/compromise'
 
-let recognition = null
+let recognition
+let synthesis
+
+// Check if the browser has speech synthesis
+if ('speechSynthesis' in window) {
+  synthesis = window.speechSynthesis
+}
 
 // Check if the browser has speech recognition
 if ('webkitSpeechRecognition' in window) {
@@ -103,13 +130,25 @@ export default {
         },
       ],
       isRecording: false,
+      isSynthesizing: false,
       isStarted: false,
       commandText: '',
     }
   },
   computed: {
-    isWebkitSpeech: () => {
+    isWebkitSpeechRecognition: () => {
       return 'webkitSpeechRecognition' in window
+    },
+    isWebkitSpeechSynthesis: () => {
+      return 'speechSynthesis' in window
+    },
+  },
+  watch: {
+    isSynthesizing(val) {
+      // Watch if synthesizing is turned off
+      if (!val) {
+        synthesis.cancel()
+      }
     },
   },
   methods: {
@@ -126,7 +165,17 @@ export default {
         // eslint-disable-next-line no-console
         console.log('Final transcript:', processedInput)
         this.logs.push({ isPlayer: true, text: [input] })
-        this.logs.push({ isPlayer: false, text: game.advance(processedInput) })
+        const gameMessage = game.advance(processedInput)
+        this.logs.push({ isPlayer: false, text: gameMessage })
+
+        // Speak the messages
+        if (this.isSynthesizing) {
+          let utterance = ''
+          gameMessage.forEach((element) => {
+            utterance += element
+          })
+          synthesis.speak(new SpeechSynthesisUtterance(utterance))
+        }
       } else {
         // No valid word given
         this.logs.push({
