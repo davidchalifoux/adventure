@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/require-v-for-key -->
 <template>
   <div
     class="container mx-auto h-screen overflow-hidden text-gray-100 flex flex-col"
@@ -7,6 +6,7 @@
       v-chat-scroll
       class="overflow-auto flex flex-col bg-gray-900 flex-grow"
     >
+      <!-- eslint-disable vue/require-v-for-key -->
       <div
         v-for="log in logs"
         class="py-2 mt-4 pl-4 border-l-4 border-gray-500 prose text-gray-100 max-w-none"
