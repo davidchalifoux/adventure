@@ -64,7 +64,7 @@
         v-model="commandText"
         type="text"
         class="flex-grow bg-transparent border-none placeholder-gray-400 focus:ring-0 disabled:opacity-25"
-        :class="{ 'ml-4': isWebkitSpeech }"
+        :class="{ 'ml-4': isWebkitSpeechRecognition }"
         :disabled="isRecording"
         placeholder="Command"
         @keyup.enter="advanceGame(commandText)"
