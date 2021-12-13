@@ -21,6 +21,7 @@
       <button
         v-if="isWebkitSpeechRecognition"
         class="bg-gray-600 p-4 rounded mr-2"
+        aria-label="Toggle voice recognition"
         @click="recognize"
       >
         <svg
@@ -42,6 +43,7 @@
       <button
         v-if="isWebkitSpeechSynthesis"
         class="bg-gray-600 p-4 rounded"
+        aria-label="Toggle text-to-speech"
         @click="isSynthesizing = !isSynthesizing"
       >
         <svg
