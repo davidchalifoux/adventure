@@ -135,29 +135,21 @@ export default {
     },
   },
   mounted() {
+    game.advance('')
+
     this.logs.push({
       isPlayer: false,
-      text: ['Welcome to Colossal Cave Adventure!'],
+      text: [
+        'Welcome to Colossal Cave Adventure!',
+        'You can give commands through the command box below,',
+        'or by clicking the microphone button and using your voice.',
+      ],
     })
-    if (this.isWebkitSpeechRecognition) {
-      this.logs.push({
-        isPlayer: false,
-        text: [
-          'To start, click the microphone button and say "go" or type it into the command box below.',
-        ],
-      })
-    } else {
-      this.logs.push({
-        isPlayer: false,
-        text: ['To start, type "go" into the command box below.'],
-      })
-    }
-    if (this.isWebkitSpeechSynthesis) {
-      this.logs.push({
-        isPlayer: false,
-        text: [`Clicking the speaker icon will read the text aloud to you.`],
-      })
-    }
+
+    this.logs.push({
+      isPlayer: false,
+      text: ['Would you like instructions?'],
+    })
   },
   methods: {
     startGame() {
