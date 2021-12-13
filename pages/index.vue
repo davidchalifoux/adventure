@@ -20,7 +20,7 @@
     >
       <button
         v-if="isWebkitSpeechRecognition"
-        class="bg-gray-600 p-4 rounded"
+        class="bg-gray-600 p-4 rounded mr-2"
         @click="recognize"
       >
         <svg
@@ -41,7 +41,7 @@
       </button>
       <button
         v-if="isWebkitSpeechSynthesis"
-        class="bg-gray-600 p-4 rounded ml-2"
+        class="bg-gray-600 p-4 rounded"
         @click="isSynthesizing = !isSynthesizing"
       >
         <svg
@@ -64,7 +64,6 @@
         v-model="commandText"
         type="text"
         class="flex-grow bg-transparent border-none placeholder-gray-400 focus:ring-0 disabled:opacity-25"
-        :class="{ 'ml-4': isWebkitSpeechRecognition }"
         :disabled="isRecording"
         placeholder="Command"
         @keyup.enter="advanceGame(commandText)"
@@ -112,23 +111,7 @@ const game = adventure.makeState()
 export default {
   data() {
     return {
-      logs: [
-        {
-          isPlayer: false,
-          text: [
-            'Welcome!',
-            recognition
-              ? `To start, click the microphone button and say "go".`
-              : null,
-            recognition
-              ? `If voice control isn't your thing, you can also type commands into the text box below.`
-              : null,
-            recognition
-              ? 'Note: We will continuously listen while the mic button is active. You do not need to toggle it after every command.'
-              : null,
-          ],
-        },
-      ],
+      logs: [],
       isRecording: false,
       isSynthesizing: false,
       isStarted: false,
@@ -150,6 +133,31 @@ export default {
         synthesis.cancel()
       }
     },
+  },
+  mounted() {
+    this.logs.push({
+      isPlayer: false,
+      text: ['Welcome to Colossal Cave Adventure!'],
+    })
+    if (this.isWebkitSpeechRecognition) {
+      this.logs.push({
+        isPlayer: false,
+        text: [
+          'To start, click the microphone button and say "go" or type it into the command box below.',
+        ],
+      })
+    } else {
+      this.logs.push({
+        isPlayer: false,
+        text: ['To start, type "go" into the command box below.'],
+      })
+    }
+    if (this.isWebkitSpeechSynthesis) {
+      this.logs.push({
+        isPlayer: false,
+        text: [`Clicking the speaker icon will read the text aloud to you.`],
+      })
+    }
   },
   methods: {
     startGame() {
