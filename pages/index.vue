@@ -66,6 +66,7 @@
         class="flex-grow bg-transparent border-none placeholder-gray-400 focus:ring-0 disabled:opacity-25"
         :disabled="isRecording"
         placeholder="Command"
+        autocomplete="off"
         @keyup.enter="advanceGame(commandText)"
       />
     </div>
