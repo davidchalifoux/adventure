@@ -174,15 +174,14 @@ export default {
           gameMessage.forEach((element) => {
             utterance += element
           })
+          synthesis.cancel()
           synthesis.speak(new SpeechSynthesisUtterance(utterance))
         }
       } else {
         // No valid word given
         this.logs.push({
           isPlayer: true,
-          text: [
-            'Sorry! Your command did not have a recognized phrase or word.',
-          ],
+          text: ['Sorry! I am not sure what you are saying.'],
         })
       }
     },
