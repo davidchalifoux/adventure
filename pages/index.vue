@@ -174,6 +174,7 @@ export default {
           gameMessage.forEach((element) => {
             utterance += element
           })
+          // Cancel previous synthesis and start the new one
           synthesis.cancel()
           synthesis.speak(new SpeechSynthesisUtterance(utterance))
         }
