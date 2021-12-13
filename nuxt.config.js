@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'adventure-web',
+    title: 'Colossal Cave Adventure',
     htmlAttrs: {
       lang: 'en',
     },
