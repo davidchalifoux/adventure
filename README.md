@@ -1,4 +1,4 @@
-# Colossal Cave Adventure Online
+# Colossal Cave Adventure
 
 <img width="947" alt="Preview" src="https://user-images.githubusercontent.com/3289533/145912708-ab4f91aa-d1a5-429f-aab6-13dfa71e158e.png">
 
