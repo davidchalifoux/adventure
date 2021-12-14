@@ -2,7 +2,7 @@
 
 <img width="947" alt="Preview" src="https://user-images.githubusercontent.com/3289533/145912708-ab4f91aa-d1a5-429f-aab6-13dfa71e158e.png">
 
-Play the original Colossal Cave text adventure game in your browser! You can also use voice commands and text-to-speech. Special thanks to [@raydog](https://github.com/raydog) for his [Node.js port](https://github.com/raydog/adventure.js).
+Play the original [Colossal Cave](https://en.wikipedia.org/wiki/Colossal_Cave_Adventure) text adventure game in your browser! You can also use voice commands and text-to-speech. Special thanks to [@raydog](https://github.com/raydog) for his [Node.js port](https://github.com/raydog/adventure.js).
 
 ## Build Setup
 
