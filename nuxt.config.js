@@ -25,6 +25,11 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  sitemap: {
+    hostname: 'https://adventure.chalifoux.dev',
+    gzip: true,
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
