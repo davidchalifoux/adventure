@@ -76,7 +76,7 @@
 </template>
 <script>
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
-import adventure from 'adventurejs'
+import adventure from 'adventurejs-web'
 import vocab from '@/language/vocab'
 import compromise from '@/language/compromise'
 

@@ -1,6 +1,6 @@
 {
   "name": "adventure-web",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -15,18 +15,18 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/typography": "^0.4.1",
-    "adventurejs": "^1.0.1",
+    "adventurejs-web": "^1.0.3",
     "compromise": "^13.11.4",
     "compromise-scan": "^0.1.2",
     "core-js": "^3.15.1",
-    "nuxt": "^2.2.0",
+    "nuxt": "^2.15.7",
     "vue-chat-scroll": "^2.0.0-alpha.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
     "@nuxtjs/eslint-config": "^6.0.1",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "@nuxtjs/tailwindcss": "^4.2.1",
+    "@nuxtjs/tailwindcss": "^4.2.0",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
