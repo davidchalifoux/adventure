@@ -19,7 +19,7 @@
     "compromise": "^13.11.4",
     "compromise-scan": "^0.1.2",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7",
+    "nuxt": "^3.0.0",
     "vue-chat-scroll": "^2.0.0-alpha.4"
   },
   "devDependencies": {
